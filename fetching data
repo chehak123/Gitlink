@@ -1,0 +1,43 @@
+# gitlink
+import { Component } from '@angular/core';
+import { GitTakeService } from "app/git-take.service";
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  user:any;
+
+constructor(private gittakeService:GitTakeService ){
+
+  this.gittakeService.getUser().subscribe(user=>{
+    debugger;
+    this.user=user;
+    console.log(user);
+  })
+
+}
+}
+import { Injectable } from '@angular/core';
+import {Http,Response, Headers} from '@angular/http'
+import'rxjs/add/operator/map';
+
+@Injectable()
+export class GitTakeService {
+
+  constructor(private http:Http) { }
+
+
+  getUser(){
+    debugger;
+    return this.http.get("http://api.github.com/users")
+        .map(
+          (resp:Response)=>{
+
+           return resp.json();
+          }
+        );    
+  }    
+}
